@@ -1,0 +1,12 @@
+Nama: bayu
+Skor Total: 1/2
+
+Detail Jawaban:
+Soal 1: Benar
+Pertanyaan: Gaja berkaki?
+Jawaban Benar: 4
+------------------------
+Soal 2: Salah
+Pertanyaan: ayam berkaki?
+Jawaban Benar: 2
+------------------------

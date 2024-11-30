@@ -1,0 +1,8 @@
+Nama: pop
+Skor Total: 0/1
+
+Detail Jawaban:
+Soal 1: Salah
+Pertanyaan: Gaja berkaki?
+Jawaban Benar: 4
+------------------------
