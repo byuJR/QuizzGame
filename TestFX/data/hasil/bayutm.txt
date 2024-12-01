@@ -1,12 +1,12 @@
-Nama: bayu
-Skor Total: 2/3
+Nama: bayutm
+Skor Total: 3/3
 
 Detail Jawaban:
 Soal 1: Benar
 Pertanyaan: Gaja berkaki?
 Jawaban Benar: 4
 ------------------------
-Soal 2: Salah
+Soal 2: Benar
 Pertanyaan: ayam berkaki?
 Jawaban Benar: 2
 ------------------------

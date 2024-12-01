@@ -1,8 +1,8 @@
-Nama: bayu
-Skor Total: 2/3
+Nama: Tim3
+Skor Total: 0/3
 
 Detail Jawaban:
-Soal 1: Benar
+Soal 1: Salah
 Pertanyaan: Gaja berkaki?
 Jawaban Benar: 4
 ------------------------
@@ -10,7 +10,7 @@ Soal 2: Salah
 Pertanyaan: ayam berkaki?
 Jawaban Benar: 2
 ------------------------
-Soal 3: Benar
+Soal 3: Salah
 Pertanyaan: 2 x 3 =
 Jawaban Benar: 6
 ------------------------

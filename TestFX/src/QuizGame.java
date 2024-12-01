@@ -7,6 +7,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.*;
 import java.nio.file.*;
@@ -22,6 +25,7 @@ public class QuizGame {
     private Timeline timer;
     private int timeLeft;
     private Label timerLabel;
+    private static final String CSS_FILE = "style.css";
 
     public QuizGame(Stage stage) {
         this.stage = stage;
@@ -86,28 +90,59 @@ public class QuizGame {
     }
 
     public Scene getStartScene() {
-        VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
+        VBox mainLayout = new VBox(20);
+        mainLayout.setAlignment(Pos.CENTER);
+        mainLayout.setPadding(new Insets(20));
+        mainLayout.getStyleClass().add("main-background");
 
-        Label nameLabel = new Label("Masukkan Nama:");
+        // Title
+        Label titleLabel = new Label("JQuizz");
+        titleLabel.getStyleClass().add("title-label");
+
+        // Input Container
+        VBox inputContainer = new VBox(15);
+        inputContainer.setAlignment(Pos.CENTER);
+        inputContainer.getStyleClass().add("input-container");
+        inputContainer.setMaxWidth(400);
+        inputContainer.setPadding(new Insets(20));
+
+        // Input nama
         TextField nameInput = new TextField();
+        nameInput.setPromptText("Masukkan Nama");
+        nameInput.getStyleClass().add("name-input");
+
+        // Buttons Container
+        VBox buttonContainer = new VBox(10);
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.setSpacing(10);
+
         Button startButton = new Button("Mulai Kuis");
+        startButton.getStyleClass().add("action-button");
+        
         Button manageButton = new Button("Kelola Soal");
+        manageButton.getStyleClass().add("action-button");
 
         startButton.setOnAction(e -> {
-            playerName = nameInput.getText();
-            if (!playerName.isEmpty()) {
+            if (!nameInput.getText().trim().isEmpty()) {
+                playerName = nameInput.getText().trim();
                 stage.setScene(getQuizScene());
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Silakan masukkan nama!", ButtonType.OK);
-                alert.showAndWait();
+                showAlert("Nama tidak boleh kosong!");
             }
         });
 
-        manageButton.setOnAction(e -> stage.setScene(getManageQuestionsScene()));
+        manageButton.setOnAction(e -> {
+            stage.setScene(getManageQuestionsScene());
+        });
 
-        layout.getChildren().addAll(nameLabel, nameInput, startButton, manageButton);
-        return new Scene(layout, 400, 300);
+        inputContainer.getChildren().addAll(nameInput, startButton, manageButton);
+        mainLayout.getChildren().addAll(titleLabel, inputContainer);
+
+        Scene scene = new Scene(mainLayout, 800, 600);
+        File cssFile = new File("src/style.css");
+        scene.getStylesheets().add(cssFile.toURI().toString());
+        
+        return scene;
     }
 
     public Scene getManageQuestionsScene() {
@@ -279,38 +314,48 @@ public class QuizGame {
     }
 
     public Scene getQuizScene() {
-        VBox layout = new VBox(10);
+        VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("main-background");
 
         Question currentQuestion = questions.get(currentQuestionIndex);
         
         timerLabel = new Label();
+        timerLabel.getStyleClass().add("timer-label");
         timeLeft = currentQuestion.getTimer();
         updateTimerLabel();
-
         setupTimer();
         
         Label questionLabel = new Label("Question " + (currentQuestionIndex + 1) + ": " + 
                                      currentQuestion.getQuestionText());
-        questionLabel.setWrapText(true);
+        questionLabel.getStyleClass().add("question-label");
         
-        VBox optionsBox = new VBox(5);
+        GridPane optionsGrid = new GridPane();
+        optionsGrid.setHgap(10);
+        optionsGrid.setVgap(10);
+        optionsGrid.setAlignment(Pos.CENTER);
+        
         String[] options = currentQuestion.getOptions();
-        
         for (int i = 0; i < options.length; i++) {
             Button optionButton = new Button(options[i]);
+            optionButton.getStyleClass().add("option-button");
+            optionButton.setMaxWidth(Double.MAX_VALUE);
+            optionButton.setMinWidth(250);
+            
             int finalI = i;
             optionButton.setOnAction(e -> {
                 stopTimer();
                 processAnswer(finalI);
             });
-            optionsBox.getChildren().add(optionButton);
+            
+            optionsGrid.add(optionButton, i % 2, i / 2);
         }
 
-        layout.getChildren().addAll(timerLabel, questionLabel, optionsBox);
+        layout.getChildren().addAll(timerLabel, questionLabel, optionsGrid);
         
-        Scene scene = new Scene(layout, 400, 300);
-        
+        Scene scene = new Scene(layout, 800, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         startTimer();
         
         return scene;
